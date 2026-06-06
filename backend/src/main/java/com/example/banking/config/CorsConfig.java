@@ -15,7 +15,8 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins(
-                                "https://full-stack-web-banking-app.vercel.app"
+                                "https://full-stack-web-banking-app.vercel.app",
+                                "http://localhost:5173"
                         )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
@@ -23,4 +24,5 @@ public class CorsConfig {
             }
         };
     }
+
 }

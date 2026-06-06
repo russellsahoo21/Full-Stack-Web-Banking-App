@@ -34,7 +34,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> {})
+                // This is the magic line that tells Spring Security
+                // to look for your 'corsConfigurer' bean from CorsConfig.java
+                .cors(org.springframework.security.config.Customizer.withDefaults())
+
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         // 1. Whitelist (Public access)
@@ -45,8 +48,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/accounts/**").authenticated()
                         .requestMatchers("/api/users/**").authenticated()
                         .requestMatchers("/api/fd/**").authenticated()
+                        .requestMatchers("/api/loans/**").authenticated() // Ensure loans is protected
 
-                        // 3. THE ONLY CATCH-ALL (Must be last)
+                        // 3. Catch-all
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
@@ -59,4 +63,6 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    
 }
